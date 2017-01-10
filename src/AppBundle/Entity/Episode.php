@@ -1,48 +1,58 @@
 <?php
-
-namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Created by PhpStorm.
  * User: Nathanael
  * Date: 10/01/2017
- * Time: 15:35
+ * Time: 16:15
  */
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+
 /**
- * TV Series.
+ * Episode
  * @package AppBundle\Entity
- * @ORM\Entity
+ * @ORM\Entity()
  */
-class TVSeries
+class Episode
 {
     /**
      * @var string
-     *
      * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="guid")
      */
     private $id;
 
+
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string",nullable=true)
      */
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(nullable=true)
+     * @var int
+     * @ORM\Column(type="integer")
      */
-    private $author;
+    private $episodeNumber;
 
     /**
      * @var \DateTimeInterface
      * @ORM\Column(type="datetime",nullable=true)
      */
-    private $releasedAt;
+    private $datePublished;
+
+    /**
+     * @var string
+     * @ManyToOne(targetEntity="TVSeries")
+     * @JoinColumn(name="id", referencedColumnName="id")
+     * @ORM\Column(type="guid")
+     */
+    private $tv_series_id;
 
     /**
      * @var string
@@ -64,6 +74,13 @@ class TVSeries
         return $this->id;
     }
 
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return string
@@ -82,35 +99,51 @@ class TVSeries
     }
 
     /**
+     * @return int
+     */
+    public function getEpisodeNumber()
+    {
+        return $this->episodeNumber;
+    }
+
+    /**
+     * @param int $episodeNumber
+     */
+    public function setEpisodeNumber($episodeNumber)
+    {
+        $this->episodeNumber = $episodeNumber;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getDatePublished()
+    {
+        return $this->datePublished;
+    }
+
+    /**
+     * @param \DateTimeInterface $datePublished
+     */
+    public function setDatePublished($datePublished)
+    {
+        $this->datePublished = $datePublished;
+    }
+
+    /**
      * @return string
      */
-    public function getAuthor()
+    public function getTvSeriesId()
     {
-        return $this->author;
+        return $this->tv_series_id;
     }
 
     /**
-     * @param string $author
+     * @param string $tv_series_id
      */
-    public function setAuthor($author)
+    public function setTvSeriesId($tv_series_id)
     {
-        $this->author = $author;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getReleasedAt()
-    {
-        return $this->releasedAt;
-    }
-
-    /**
-     * @param mixed $releasedAt
-     */
-    public function setReleasedAt($releasedAt)
-    {
-        $this->releasedAt = $releasedAt;
+        $this->tv_series_id = $tv_series_id;
     }
 
     /**
@@ -144,6 +177,7 @@ class TVSeries
     {
         $this->image = $image;
     }
+
 
 
 }
